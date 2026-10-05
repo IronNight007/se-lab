@@ -28,20 +28,23 @@ public class TorpedoStore {
     }
   }
 
+  // Osztályszintű véletlenszám-generátor a felesleges újrapéldányosítás elkerülésére.
+  private final Random random = new Random();
+
   public boolean fire(int numberOfTorpedos){
+    // Érvénytelen paraméter esetén IllegalArgumentException-t dobunk.
     if(numberOfTorpedos < 1 || numberOfTorpedos > this.torpedoCount){
-      new IllegalArgumentException("numberOfTorpedos");
+      throw new IllegalArgumentException("numberOfTorpedos");
     }
 
     boolean success = false;
 
     // simulate random overheating of the launcher bay which prevents firing
-    Random generator = new Random();
-    double r = generator.nextDouble();
+    double r = random.nextDouble();
 
     if (r >= FAILURE_RATE) {
       // successful firing
-      this.torpedoCount =- numberOfTorpedos;
+      this.torpedoCount -= numberOfTorpedos; // Kijavított relációs operátor a pontos feltételvizsgálat érdekében.
       success = true;
     } else {
       // simulated failure
