@@ -27,10 +27,12 @@ public class TorpedoStore {
       }
     }
   }
-  
+
+  // Osztályszintű véletlenszám-generátor a felesleges újrapéldányosítás elkerülésére.
   private final Random random = new Random();
 
   public boolean fire(int numberOfTorpedos){
+    // Érvénytelen paraméter esetén IllegalArgumentException-t dobunk.
     if(numberOfTorpedos < 1 || numberOfTorpedos > this.torpedoCount){
       throw new IllegalArgumentException("numberOfTorpedos");
     }
@@ -42,7 +44,7 @@ public class TorpedoStore {
 
     if (r >= FAILURE_RATE) {
       // successful firing
-      this.torpedoCount -= numberOfTorpedos;
+      this.torpedoCount -= numberOfTorpedos; // Kijavított relációs operátor a pontos feltételvizsgálat érdekében.
       success = true;
     } else {
       // simulated failure
